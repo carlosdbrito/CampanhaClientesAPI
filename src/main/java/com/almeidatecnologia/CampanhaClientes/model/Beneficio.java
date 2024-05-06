@@ -3,7 +3,7 @@ package com.almeidatecnologia.CampanhaClientes.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,6 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name="TB_Beneficio")
@@ -29,9 +32,15 @@ public class Beneficio {
 	@Column(nullable= false)
 	private String descricao;
 	
+	@NotNull(message = "A Data Inicio não pode ser nula")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@PastOrPresent(message = "A Data Inicio deve estar no passado ou no presente")
 	@Column(nullable= false)
 	private LocalDate dataInicio;
-			
+
+	@NotNull(message = "A Data Fim não pode ser nula")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@FutureOrPresent(message = "A Data Fim deve estar no futuro ou no presente")
 	@Column(nullable= false)		
 	private LocalDate dataFim;	
 

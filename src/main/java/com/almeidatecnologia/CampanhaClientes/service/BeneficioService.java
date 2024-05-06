@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.almeidatecnologia.CampanhaClientes.exception.BeneficioNotFoundException;
 import com.almeidatecnologia.CampanhaClientes.exception.ClienteNotFoundException;
+import com.almeidatecnologia.CampanhaClientes.exception.DatabaseException;
 import com.almeidatecnologia.CampanhaClientes.model.Beneficio;
 import com.almeidatecnologia.CampanhaClientes.model.Cliente;
 import com.almeidatecnologia.CampanhaClientes.repository.BeneficioRepository;
@@ -36,25 +38,11 @@ public class BeneficioService implements BeneficioServiceInterface {
 	}
 
 	@Override
-	public Beneficio atualizarBeneficio(Beneficio beneficio) throws BeneficioNotFoundException {
-		Optional<Beneficio> findBeneficio = beneficioRepository.findById(beneficio.getId());
-				
-		if(findBeneficio.isPresent()) {
-			Beneficio updateBeneficio = findBeneficio.get();
-			updateBeneficio.setNome(beneficio.getNome());
-			updateBeneficio.setDescricao(beneficio.getDescricao());
-			updateBeneficio.setNome(beneficio.getNome());
-			updateBeneficio.setDataInicio(beneficio.getDataInicio());
-			updateBeneficio.setDataFim(beneficio.getDataFim());
-			
-			
-			return beneficioRepository.save(updateBeneficio);
-		}
-		return beneficio;		
-	}
-
-	@Override
 	public void deletarBeneficio(Long id) throws BeneficioNotFoundException {
-		beneficioRepository.deleteById(id);		
+		try {
+			beneficioRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}	    
 }

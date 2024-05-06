@@ -7,8 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CampanhaClientesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CampanhaClientesApplication.class, args);
-		System.out.println("Sucesso!");
+		SpringApplication.run(CampanhaClientesApplication.class, args);		
 	}
 
 }

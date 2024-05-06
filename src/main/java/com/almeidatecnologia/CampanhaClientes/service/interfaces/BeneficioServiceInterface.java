@@ -8,7 +8,6 @@ import com.almeidatecnologia.CampanhaClientes.model.Beneficio;
 public interface BeneficioServiceInterface {
 	
 	Beneficio salvarBeneficio(Beneficio beneficio);	
-	Optional<Beneficio> obterBeneficioPorId(Long id);
-	Beneficio atualizarBeneficio(Beneficio beneficio);
+	Optional<Beneficio> obterBeneficioPorId(Long id);	
 	void deletarBeneficio(Long id);	
 }

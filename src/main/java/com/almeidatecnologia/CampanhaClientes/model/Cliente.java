@@ -13,6 +13,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="TB_Cliente")
@@ -35,7 +38,10 @@ public class Cliente {
 	private TipoConta  tipoConta;	 
 	     //0 - Poupanca
 	     //1 - ContaCorrente
-	     
+	
+	
+	@Min(value = 0,    message = "O valor deve ser no mínimo 0")
+	@Max(value = 1000, message = "O valor deve ser no máximo 1000")
 	@Column(nullable= true)
 	private Integer score; 
   

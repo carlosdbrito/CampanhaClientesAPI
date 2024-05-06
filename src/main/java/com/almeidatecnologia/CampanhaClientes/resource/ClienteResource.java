@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,12 @@ import com.almeidatecnologia.CampanhaClientes.model.Beneficio;
 import com.almeidatecnologia.CampanhaClientes.model.Cliente;
 import com.almeidatecnologia.CampanhaClientes.repository.BeneficioRepository;
 import com.almeidatecnologia.CampanhaClientes.service.ClienteService;
-import com.almeidatecnologia.CampanhaClientes.service.BeneficioService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
+@Validated
 @Tag(name="Cliente")
 @RequestMapping("/api/clientes") 
 public class ClienteResource {
@@ -42,7 +43,7 @@ public class ClienteResource {
 
     @Operation(summary = "Cria um novo Cliente.")
 	@PostMapping
-	public ResponseEntity<Cliente> salvarCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> salvarCliente(@Valid @RequestBody Cliente cliente){
 		Cliente objCliente = clienteService.salvarCliente(cliente);
 		if(objCliente == null)
 			return ResponseEntity.notFound().build();
@@ -58,7 +59,7 @@ public class ClienteResource {
 		return ResponseEntity.ok(objCliente);
 	}
      
-    @Operation(summary = "Listar todos os Clientes.")
+    @Operation(summary = "Lista todos os Clientes.")
 	@GetMapping
 	public ResponseEntity<List<Cliente>> obterTodosClientes(){
 		List<Cliente> objCliente = clienteService.obterTodosClientes();
@@ -72,7 +73,7 @@ public class ClienteResource {
 
     @Operation(summary = "Atualiza um Cliente existente.")
 	@PutMapping
-	public ResponseEntity<Cliente> atualizarCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> atualizarCliente(@Valid @RequestBody Cliente cliente){
 		Cliente objCliente = clienteService.atualizarCliente(cliente);
 		if(objCliente == null)
 			return ResponseEntity.notFound().build();
@@ -88,7 +89,7 @@ public class ClienteResource {
     
     @Operation(summary = "Adiciona um novo Benefício a um Cliente.")
     @PostMapping("/{id}/beneficio")
-    public ResponseEntity<Beneficio> adicionarBeneficioCliente(@RequestBody Beneficio beneficio) {
+    public ResponseEntity<Beneficio> adicionarBeneficioCliente(@Valid @RequestBody Beneficio beneficio) {
         	Beneficio objBeneficio = beneficioRepository.save(beneficio);
             if (objBeneficio == null) {
             	return ResponseEntity.notFound().build();
